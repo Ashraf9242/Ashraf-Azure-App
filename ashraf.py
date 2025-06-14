@@ -3,19 +3,80 @@ import json
 
 app = Flask(__name__)
 
-# بيانات رؤية عمان 2040
+# بيانات رؤية عمان 2040 المحدثة
 vision_data = {
-    "sectors": [
+    "vision_info": {
+        "title": "رؤية عُمان 2040",
+        "subtitle": "المرجع الوطني للتخطيط الاقتصادي والاجتماعي",
+        "period": "2021-2040",
+        "description": "رؤية طموحة تهدف إلى بناء مجتمع معرفي مستدام ومتنوع اقتصادياً، يقوده مواطنون معتزون بتراثهم وثقافتهم العمانية الأصيلة"
+    },
+    "main_axes": [
+        {
+            "name": "الإنسان والمجتمع",
+            "name_en": "People & Society",
+            "description": "تنمية القدرات البشرية وبناء مجتمع معرفي متطور",
+            "color": "#FF6B35",
+            "icon": "👥",
+            "priorities": [
+                "التعليم والتعلم والبحث العلمي والقدرات الوطنية",
+                "الصحة",
+                "الرفاه والحماية الاجتماعية",
+                "الثقافة والهوية والتراث الوطني",
+                "المواطنة والهوية والتعددية الثقافية"
+            ]
+        },
+        {
+            "name": "الاقتصاد والتنمية",
+            "name_en": "Economy & Development",
+            "description": "اقتصاد متنوع ومستدام يحقق الازدهار للجميع",
+            "color": "#4CAF50",
+            "icon": "📈",
+            "priorities": [
+                "القطاع الخاص والاستثمار والتعاون الدولي",
+                "التنويع الاقتصادي والاستدامة المالية",
+                "سوق العمل والتشغيل",
+                "تنمية المحافظات والتنمية المكانية المستدامة"
+            ]
+        },
+        {
+            "name": "الحوكمة والأداء المؤسسي",
+            "name_en": "Governance & Institutional Performance",
+            "description": "حكومة فعالة وشفافة تواكب التطورات العالمية",
+            "color": "#9C27B0",
+            "icon": "⚖️",
+            "priorities": [
+                "الجهاز الإداري للدولة والحوكمة",
+                "التشريعات والقضاء",
+                "الأمن والدفاع والسياسة الخارجية"
+            ]
+        },
+        {
+            "name": "البيئة والموارد الطبيعية",
+            "name_en": "Environment & Natural Resources",
+            "description": "بيئة مستدامة محمية وآمنة للأجيال القادمة",
+            "color": "#00D4FF",
+            "icon": "🌿",
+            "priorities": [
+                "البيئة والموارد الطبيعية",
+                "الطاقة المتجددة والاستدامة البيئية"
+            ]
+        }
+    ],
+    "tech_sectors": [
         {
             "name": "الحوسبة السحابية",
             "name_en": "Cloud Computing",
             "progress": 75,
             "color": "#00D4FF",
             "icon": "☁️",
+            "description": "تطوير البنية التحتية الرقمية وخدمات الحوسبة السحابية لدعم التحول الرقمي",
             "initiatives": [
-                "مراكز البيانات الذكية",
-                "الخدمات السحابية الحكومية", 
-                "الأمن السيبراني المتقدم"
+                "مراكز البيانات الذكية الحكومية",
+                "منصة عمان الرقمية الموحدة",
+                "خدمات الحوسبة السحابية للقطاع الخاص",
+                "الأمن السيبراني المتقدم",
+                "شبكة الجيل الخامس 5G"
             ]
         },
         {
@@ -24,22 +85,28 @@ vision_data = {
             "progress": 65,
             "color": "#FF6B35",
             "icon": "🤖",
+            "description": "تطبيق تقنيات الذكاء الاصطناعي في مختلف القطاعات لتحسين الكفاءة والإنتاجية",
             "initiatives": [
-                "منصات الذكاء الاصطناعي",
-                "التعلم الآلي في الصناعة",
-                "الروبوتات الذكية"
+                "منصات الذكاء الاصطناعي الحكومية",
+                "التعلم الآلي في الصناعة والطاقة",
+                "الروبوتات الذكية في الصحة",
+                "تحليل البيانات الضخمة",
+                "الخدمات الذكية للمواطنين"
             ]
         },
         {
-            "name": "إنترنت الأشياء",
-            "name_en": "Internet of Things",
+            "name": "المدن الذكية",
+            "name_en": "Smart Cities",
             "progress": 70,
             "color": "#4CAF50",
-            "icon": "🌐",
+            "icon": "🏙️",
+            "description": "تطوير مدن ذكية مستدامة تحسن جودة الحياة وتعزز الكفاءة الحضرية",
             "initiatives": [
-                "المدن الذكية",
-                "النقل الذكي",
-                "الزراعة الذكية"
+                "مشروع مسقط الذكية",
+                "نظام النقل الذكي",
+                "إدارة الطاقة الذكية",
+                "الخدمات البلدية الرقمية",
+                "شبكات الاستشعار البيئية"
             ]
         },
         {
@@ -48,10 +115,13 @@ vision_data = {
             "progress": 55,
             "color": "#9C27B0",
             "icon": "⛓️",
+            "description": "تطبيق تقنية البلوك تشين لتعزيز الأمان والشفافية في المعاملات",
             "initiatives": [
-                "العملات الرقمية",
-                "الهوية الرقمية",
-                "العقود الذكية"
+                "الهوية الرقمية الموحدة",
+                "العقود الذكية الحكومية",
+                "نظام التصويت الإلكتروني",
+                "تتبع سلاسل التوريد",
+                "الشهادات الأكاديمية الرقمية"
             ]
         },
         {
@@ -60,10 +130,13 @@ vision_data = {
             "progress": 80,
             "color": "#FFEB3B",
             "icon": "⚡",
+            "description": "تنويع مصادر الطاقة وتحقيق الاستدامة البيئية من خلال الطاقة النظيفة",
             "initiatives": [
-                "الطاقة الشمسية",
-                "طاقة الرياح",
-                "الهيدروجين الأخضر"
+                "محطات الطاقة الشمسية الضخمة",
+                "مشاريع طاقة الرياح",
+                "إنتاج الهيدروجين الأخضر",
+                "تقنيات تخزين الطاقة",
+                "الشبكات الذكية للطاقة"
             ]
         },
         {
@@ -72,10 +145,13 @@ vision_data = {
             "progress": 68,
             "color": "#FF5722",
             "icon": "💳",
+            "description": "تطوير منظومة التجارة الإلكترونية والخدمات المالية الرقمية",
             "initiatives": [
-                "المدفوعات الرقمية",
-                "التجارة الإلكترونية",
-                "الخدمات المصرفية الرقمية"
+                "منصة التجارة الإلكترونية الوطنية",
+                "نظام المدفوعات الرقمية",
+                "الخدمات المصرفية الرقمية",
+                "محفظة عمان الرقمية",
+                "منصات التمويل الرقمي"
             ]
         }
     ],
@@ -83,7 +159,11 @@ vision_data = {
         "digital_transformation": 72,
         "innovation_index": 68,
         "tech_adoption": 75,
-        "cloud_readiness": 70
+        "cloud_readiness": 70,
+        "total_goals": 88,
+        "national_priorities": 14,
+        "main_axes": 4,
+        "performance_indicators": 68
     }
 }
 
@@ -123,6 +203,140 @@ HTML_TEMPLATE = """
             margin-bottom: 30px;
             backdrop-filter: blur(10px);
             animation: fadeInDown 1s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .oman-flag {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            width: 80px;
+            height: 50px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            background: linear-gradient(to bottom, 
+                white 0%, white 33.33%, 
+                #FF0000 33.33%, #FF0000 66.66%, 
+                #228B22 66.66%, #228B22 100%);
+        }
+
+        .oman-flag::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 25px;
+            height: 100%;
+            background: #FF0000;
+        }
+
+        .vision-intro {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .vision-intro h2 {
+            color: #FFD700;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+
+        .vision-intro p {
+            line-height: 1.8;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .axes-section {
+            margin: 50px 0;
+        }
+
+        .axes-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .axes-title h2 {
+            font-size: 2.5rem;
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+
+        .axes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .axis-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            animation: slideIn 1s ease-out;
+        }
+
+        .axis-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .axis-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .axis-icon {
+            font-size: 3rem;
+            margin-left: 20px;
+        }
+
+        .axis-title h3 {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+        }
+
+        .axis-title p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .axis-description {
+            margin: 15px 0;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .priorities-list {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .priorities-list li {
+            padding: 10px 0;
+            padding-right: 25px;
+            position: relative;
+            font-size: 0.95rem;
+            opacity: 0;
+            animation: fadeInRight 1s ease-out forwards;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .priorities-list li:before {
+            content: "🎯";
+            position: absolute;
+            right: 0;
+            font-size: 1.2rem;
         }
 
         .header h1 {
@@ -393,31 +607,79 @@ HTML_TEMPLATE = """
 
     <div class="container">
         <div class="header">
-            <h1>🇴🇲 رؤية عمان 2040</h1>
-            <p>التحول الرقمي والحوسبة السحابية لمستقبل مزدهر</p>
+            <div class="oman-flag"></div>
+            <h1>🇴🇲 رؤية عُمان 2040</h1>
+            <p>{{ vision_info.subtitle }}</p>
+            <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 10px;">{{ vision_info.period }}</p>
+        </div>
+
+        <div class="vision-intro">
+            <h2>📋 نبذة عن الرؤية</h2>
+            <p>{{ vision_info.description }}</p>
+            <p style="margin-top: 15px;">
+                تُعد رؤية عُمان 2040 المرجع الوطني للتخطيط الاقتصادي والاجتماعي لسلطنة عُمان خلال الفترة 2021-2040، 
+                وترتكز على 4 محاور رئيسة تتفرع منها 14 أولوية وطنية و88 هدفاً استراتيجياً و68 مؤشراً لقياس الأداء.
+            </p>
         </div>
 
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-value">{{ stats.digital_transformation }}%</div>
-                <div>التحول الرقمي</div>
+                <div class="stat-value">{{ stats.main_axes }}</div>
+                <div>المحاور الرئيسية</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">{{ stats.innovation_index }}%</div>
-                <div>مؤشر الابتكار</div>
+                <div class="stat-value">{{ stats.national_priorities }}</div>
+                <div>الأولويات الوطنية</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">{{ stats.tech_adoption }}%</div>
-                <div>تبني التكنولوجيا</div>
+                <div class="stat-value">{{ stats.total_goals }}</div>
+                <div>الأهداف الاستراتيجية</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">{{ stats.cloud_readiness }}%</div>
-                <div>جاهزية الحوسبة السحابية</div>
+                <div class="stat-value">{{ stats.performance_indicators }}</div>
+                <div>مؤشرات الأداء</div>
             </div>
         </div>
 
+        <div class="axes-section">
+            <div class="axes-title">
+                <h2>🎯 المحاور الرئيسية للرؤية</h2>
+                <p>أربعة محاور استراتيجية تشكل الأساس لتحقيق رؤية عمان 2040</p>
+            </div>
+            
+            <div class="axes-grid">
+                {% for axis in main_axes %}
+                <div class="axis-card" style="border-left: 5px solid {{ axis.color }};">
+                    <div class="axis-header">
+                        <div class="axis-icon">{{ axis.icon }}</div>
+                        <div class="axis-title">
+                            <h3>{{ axis.name }}</h3>
+                            <p>{{ axis.name_en }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="axis-description">
+                        {{ axis.description }}
+                    </div>
+
+                    <h4 style="color: {{ axis.color }}; margin: 20px 0 10px 0; font-size: 1.1rem;">الأولويات الوطنية:</h4>
+                    <ul class="priorities-list">
+                        {% for priority in axis.priorities %}
+                        <li style="animation-delay: {{ loop.index * 0.2 }}s;">{{ priority }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="axes-title">
+            <h2>💻 القطاعات التقنية الرئيسية</h2>
+            <p>تقنيات المستقبل التي تدعم تحقيق رؤية عمان 2040</p>
+        </div>
+
         <div class="sectors-grid">
-            {% for sector in sectors %}
+            {% for sector in tech_sectors %}
             <div class="sector-card">
                 <div class="sector-header">
                     <div class="sector-icon">{{ sector.icon }}</div>
@@ -425,6 +687,10 @@ HTML_TEMPLATE = """
                         <h3>{{ sector.name }}</h3>
                         <p>{{ sector.name_en }}</p>
                     </div>
+                </div>
+                
+                <div style="margin: 15px 0; opacity: 0.9; line-height: 1.6;">
+                    {{ sector.description }}
                 </div>
                 
                 <div class="progress-container">
@@ -439,6 +705,7 @@ HTML_TEMPLATE = """
                     </div>
                 </div>
 
+                <h4 style="color: {{ sector.color }}; margin: 20px 0 10px 0;">المبادرات الرئيسية:</h4>
                 <ul class="initiatives-list">
                     {% for initiative in sector.initiatives %}
                     <li style="animation-delay: {{ loop.index * 0.2 }}s;">{{ initiative }}</li>
@@ -534,7 +801,9 @@ HTML_TEMPLATE = """
 @app.route('/')
 def dashboard():
     return render_template_string(HTML_TEMPLATE, 
-                                sectors=vision_data['sectors'],
+                                vision_info=vision_data['vision_info'],
+                                main_axes=vision_data['main_axes'],
+                                tech_sectors=vision_data['tech_sectors'],
                                 stats=vision_data['stats'])
 
 @app.route('/api/data')
