@@ -1,10 +1,15 @@
-from flask import Flask, render_template_string
+import http.server
+import socketserver
+from urllib.parse import urlparse
 
-app = Flask(__name__)
-
-@app.route('/')
-def home():
-    return render_template_string("""
+class StoryHandler(http.server.SimpleHTTPRequestHandler):
+    def do_GET(self):
+        if self.path == '/' or self.path == '/index.html':
+            self.send_response(200)
+            self.send_header('Content-type', 'text/html')
+            self.end_headers()
+            
+            html_content = """
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -167,7 +172,13 @@ def home():
     </div>
 </body>
 </html>
-    """)
+            """
+            self.wfile.write(html_content.encode())
+        else:
+            self.send_error(404)
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    PORT = 8000
+    with socketserver.TCPServer(("", PORT), StoryHandler) as httpd:
+        print(f"Server running at http://localhost:{PORT}")
+        httpd.serve_forever()
