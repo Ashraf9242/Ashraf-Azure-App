@@ -1,16 +1,99 @@
 from flask import Flask, render_template_string
+import json
 
 app = Flask(__name__)
 
-@app.route('/')
-def home():
-    return render_template_string("""
+# بيانات رؤية عمان 2040
+vision_data = {
+    "sectors": [
+        {
+            "name": "الحوسبة السحابية",
+            "name_en": "Cloud Computing",
+            "progress": 75,
+            "color": "#00D4FF",
+            "icon": "☁️",
+            "initiatives": [
+                "مراكز البيانات الذكية",
+                "الخدمات السحابية الحكومية", 
+                "الأمن السيبراني المتقدم"
+            ]
+        },
+        {
+            "name": "الذكاء الاصطناعي",
+            "name_en": "Artificial Intelligence",
+            "progress": 65,
+            "color": "#FF6B35",
+            "icon": "🤖",
+            "initiatives": [
+                "منصات الذكاء الاصطناعي",
+                "التعلم الآلي في الصناعة",
+                "الروبوتات الذكية"
+            ]
+        },
+        {
+            "name": "إنترنت الأشياء",
+            "name_en": "Internet of Things",
+            "progress": 70,
+            "color": "#4CAF50",
+            "icon": "🌐",
+            "initiatives": [
+                "المدن الذكية",
+                "النقل الذكي",
+                "الزراعة الذكية"
+            ]
+        },
+        {
+            "name": "البلوك تشين",
+            "name_en": "Blockchain",
+            "progress": 55,
+            "color": "#9C27B0",
+            "icon": "⛓️",
+            "initiatives": [
+                "العملات الرقمية",
+                "الهوية الرقمية",
+                "العقود الذكية"
+            ]
+        },
+        {
+            "name": "الطاقة المتجددة",
+            "name_en": "Renewable Energy",
+            "progress": 80,
+            "color": "#FFEB3B",
+            "icon": "⚡",
+            "initiatives": [
+                "الطاقة الشمسية",
+                "طاقة الرياح",
+                "الهيدروجين الأخضر"
+            ]
+        },
+        {
+            "name": "التجارة الرقمية",
+            "name_en": "Digital Commerce",
+            "progress": 68,
+            "color": "#FF5722",
+            "icon": "💳",
+            "initiatives": [
+                "المدفوعات الرقمية",
+                "التجارة الإلكترونية",
+                "الخدمات المصرفية الرقمية"
+            ]
+        }
+    ],
+    "stats": {
+        "digital_transformation": 72,
+        "innovation_index": 68,
+        "tech_adoption": 75,
+        "cloud_readiness": 70
+    }
+}
+
+HTML_TEMPLATE = """
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>From Dreams to Code - The Journey of Alex</title>
+    <title>رؤية عمان 2040 - التحول الرقمي</title>
     <style>
         * {
             margin: 0;
@@ -22,7 +105,7 @@ def home():
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            color: #333;
+            color: white;
             overflow-x: hidden;
         }
 
@@ -32,198 +115,192 @@ def home():
             padding: 20px;
         }
 
-        .hero {
+        .header {
             text-align: center;
-            padding: 60px 0;
+            padding: 40px 0;
             background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
             border-radius: 20px;
-            margin-bottom: 40px;
-            animation: fadeInUp 1s ease-out;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            animation: fadeInDown 1s ease-out;
         }
 
-        .hero h1 {
-            font-size: 3.5rem;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #FFD700, #FFA500);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 20px;
-            animation: glow 2s ease-in-out infinite alternate;
         }
 
-        .hero p {
-            font-size: 1.3rem;
-            color: white;
+        .header p {
+            font-size: 1.2rem;
             opacity: 0.9;
         }
 
-        .story-section {
-            background: rgba(255, 255, 255, 0.95);
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.15);
             border-radius: 15px;
-            padding: 40px;
-            margin: 30px 0;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            animation: slideInLeft 0.8s ease-out;
+            padding: 25px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: fadeInUp 1s ease-out;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .story-section:nth-child(even) {
-            animation: slideInRight 0.8s ease-out;
-        }
-
-        .story-section:hover {
+        .stat-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
         }
 
-        .story-section h2 {
-            font-size: 2.2rem;
-            color: #2c3e50;
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+
+        .sectors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .sector-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: slideIn 1s ease-out;
+            transition: all 0.3s ease;
+        }
+
+        .sector-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .sector-header {
+            display: flex;
+            align-items: center;
             margin-bottom: 20px;
-            position: relative;
-            display: inline-block;
         }
 
-        .story-section h2::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 3px;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            animation: underlineGrow 2s ease-out forwards;
+        .sector-icon {
+            font-size: 2.5rem;
+            margin-left: 15px;
         }
 
-        .story-section p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #555;
-            margin-bottom: 15px;
+        .sector-title {
+            flex: 1;
         }
 
-        .code-block {
-            background: #1e1e1e;
-            color: #f8f8f2;
-            padding: 20px;
-            border-radius: 10px;
+        .sector-title h3 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .sector-title p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .progress-container {
             margin: 20px 0;
-            font-family: 'Courier New', monospace;
-            overflow-x: auto;
-            animation: typewriter 3s steps(40, end) forwards;
-            white-space: nowrap;
-            overflow: hidden;
-            border-left: 4px solid #4ecdc4;
         }
 
-        .phone-icon {
-            display: inline-block;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
-            border-radius: 15px;
-            margin: 0 10px;
-            position: relative;
-            animation: phoneFloat 3s ease-in-out infinite;
-        }
-
-        .phone-icon::before {
-            content: '📱';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 30px;
-            opacity: 0.3;
-            animation: fadeInOut 2s ease-in-out infinite;
-        }
-
-        .laptop-icon {
-            display: inline-block;
-            width: 80px;
-            height: 60px;
-            background: linear-gradient(45deg, #4ecdc4, #44a08d);
-            border-radius: 10px;
-            margin: 0 10px;
-            position: relative;
-            animation: laptopGlow 2s ease-in-out infinite alternate;
-        }
-
-        .laptop-icon::before {
-            content: '💻';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 35px;
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
         }
 
         .progress-bar {
             width: 100%;
-            height: 10px;
-            background: #e0e0e0;
-            border-radius: 5px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
             overflow: hidden;
-            margin: 20px 0;
         }
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            border-radius: 5px;
-            animation: progressFill 3s ease-out forwards;
-            width: 0;
+            border-radius: 6px;
+            animation: progressFill 2s ease-out;
+            transition: width 0.5s ease;
         }
 
-        .achievement {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            margin: 20px 0;
-            text-align: center;
-            animation: bounce 2s ease-in-out infinite;
+        .initiatives-list {
+            list-style: none;
+            margin-top: 15px;
         }
 
-        .floating-elements {
+        .initiatives-list li {
+            padding: 8px 0;
+            padding-right: 20px;
+            position: relative;
+            opacity: 0;
+            animation: fadeInRight 1s ease-out forwards;
+        }
+
+        .initiatives-list li:before {
+            content: "✓";
+            position: absolute;
+            right: 0;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .cloud-animation {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
+            overflow: hidden;
             z-index: -1;
         }
 
-        .floating-element {
+        .cloud {
             position: absolute;
-            opacity: 0.1;
-            animation: float 6s ease-in-out infinite;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            opacity: 0.6;
+            animation: float 20s infinite linear;
         }
 
-        .floating-element:nth-child(1) {
-            top: 10%;
-            left: 10%;
-            animation-delay: 0s;
+        .cloud:before, .cloud:after {
+            content: '';
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
         }
 
-        .floating-element:nth-child(2) {
-            top: 20%;
-            right: 10%;
-            animation-delay: 1s;
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            margin-top: 40px;
         }
 
-        .floating-element:nth-child(3) {
-            top: 60%;
-            left: 20%;
-            animation-delay: 2s;
-        }
-
-        @keyframes fadeInUp {
+        @keyframes fadeInDown {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(-50px);
             }
             to {
                 opacity: 1;
@@ -231,18 +308,18 @@ def home():
             }
         }
 
-        @keyframes slideInLeft {
+        @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateX(-50px);
+                transform: translateY(50px);
             }
             to {
                 opacity: 1;
-                transform: translateX(0);
+                transform: translateY(0);
             }
         }
 
-        @keyframes slideInRight {
+        @keyframes slideIn {
             from {
                 opacity: 0;
                 transform: translateX(50px);
@@ -253,220 +330,226 @@ def home():
             }
         }
 
-        @keyframes glow {
+        @keyframes fadeInRight {
             from {
-                text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+                opacity: 0;
+                transform: translateX(20px);
             }
             to {
-                text-shadow: 0 0 20px rgba(78, 205, 196, 0.5);
-            }
-        }
-
-        @keyframes underlineGrow {
-            from {
-                width: 0;
-            }
-            to {
-                width: 100%;
-            }
-        }
-
-        @keyframes typewriter {
-            from {
-                width: 0;
-            }
-            to {
-                width: 100%;
-            }
-        }
-
-        @keyframes phoneFloat {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        @keyframes fadeInOut {
-            0%, 100% {
-                opacity: 0.3;
-            }
-            50% {
-                opacity: 0.1;
-            }
-        }
-
-        @keyframes laptopGlow {
-            from {
-                box-shadow: 0 0 10px rgba(78, 205, 196, 0.3);
-            }
-            to {
-                box-shadow: 0 0 25px rgba(78, 205, 196, 0.6);
+                opacity: 1;
+                transform: translateX(0);
             }
         }
 
         @keyframes progressFill {
             from {
-                width: 0;
-            }
-            to {
-                width: 100%;
-            }
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0);
-            }
-            40% {
-                transform: translateY(-10px);
-            }
-            60% {
-                transform: translateY(-5px);
+                width: 0%;
             }
         }
 
         @keyframes float {
-            0%, 100% {
-                transform: translateY(0) rotate(0deg);
+            from {
+                transform: translateX(-100px);
             }
-            50% {
-                transform: translateY(-20px) rotate(180deg);
+            to {
+                transform: translateX(calc(100vw + 100px));
             }
         }
 
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
+            .header h1 {
+                font-size: 2rem;
             }
             
-            .story-section {
-                padding: 20px;
+            .sectors-grid {
+                grid-template-columns: 1fr;
             }
             
-            .story-section h2 {
-                font-size: 1.8rem;
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
 </head>
 <body>
-    <div class="floating-elements">
-        <div class="floating-element">⚡</div>
-        <div class="floating-element">💡</div>
-        <div class="floating-element">🚀</div>
+    <div class="cloud-animation">
+        <div class="cloud" style="width: 100px; height: 60px; top: 20%; animation-delay: 0s;"></div>
+        <div class="cloud" style="width: 80px; height: 50px; top: 60%; animation-delay: -5s;"></div>
+        <div class="cloud" style="width: 120px; height: 70px; top: 40%; animation-delay: -10s;"></div>
     </div>
 
     <div class="container">
-        <div class="hero">
-            <h1>From Dreams to Code</h1>
-            <p>The Inspiring Journey of Alex - A Boy Who Became a Developer Without a Phone</p>
+        <div class="header">
+            <h1>🇴🇲 رؤية عمان 2040</h1>
+            <p>التحول الرقمي والحوسبة السحابية لمستقبل مزدهر</p>
         </div>
 
-        <div class="story-section">
-            <h2>Chapter 1: The Dream Without a Device</h2>
-            <p>Meet Alex, a 14-year-old boy from a small town who dreamed of creating amazing software. While his classmates were busy with their smartphones, Alex had something different - an unbreakable determination and a curious mind.</p>
-            <p>Every day, he would walk past the local internet café, watching through the window as people typed away on keyboards. He couldn't afford a phone, but his dreams were bigger than any device.</p>
-            <div class="phone-icon"></div>
-            <span style="font-size: 2rem; color: #ff6b6b;">❌</span>
-            <p><em>"I don't need a phone to change the world with code!"</em> - Alex</p>
-        </div>
-
-        <div class="story-section">
-            <h2>Chapter 2: The Library Discovery</h2>
-            <p>One rainy afternoon, Alex discovered the public library had computers with internet access. His eyes lit up as he sat in front of his first computer. The librarian, Mrs. Chen, noticed his enthusiasm and became his first mentor.</p>
-            <p>Alex spent every free hour at the library, learning HTML, CSS, and JavaScript from free online resources. He took notes in an old notebook, creating his own reference guide.</p>
-            <div class="progress-bar">
-                <div class="progress-fill"></div>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">{{ stats.digital_transformation }}%</div>
+                <div>التحول الرقمي</div>
             </div>
-            <p><strong>Skills Acquired:</strong> HTML, CSS, Basic JavaScript</p>
-        </div>
-
-        <div class="story-section">
-            <h2>Chapter 3: The First Lines of Code</h2>
-            <p>After weeks of learning, Alex wrote his first program. His hands trembled with excitement as he typed:</p>
-            <div class="code-block">
-                console.log("Hello World! I'm Alex, and I'm going to be a developer!");
+            <div class="stat-card">
+                <div class="stat-value">{{ stats.innovation_index }}%</div>
+                <div>مؤشر الابتكار</div>
             </div>
-            <p>That simple line of code represented hours of learning, dedication, and unwavering belief in his dreams. The library computer became his gateway to a world of infinite possibilities.</p>
-        </div>
-
-        <div class="story-section">
-            <h2>Chapter 4: Building Without Boundaries</h2>
-            <p>Alex created his first website - a simple portfolio showcasing his journey. He used every free minute to learn new technologies:</p>
-            <ul style="margin-left: 20px; margin-top: 15px;">
-                <li>Python for backend development</li>
-                <li>Flask for web applications</li>
-                <li>Git for version control</li>
-                <li>Database fundamentals</li>
-            </ul>
-            <div class="laptop-icon"></div>
-            <p>His projects grew more complex each week. Alex proved that creativity and determination matter more than having the latest gadgets.</p>
-        </div>
-
-        <div class="story-section">
-            <h2>Chapter 5: The Breakthrough</h2>
-            <p>After a year of relentless learning, Alex built a web application that helped local businesses manage their inventory. Word spread quickly through his small town.</p>
-            <div class="achievement">
-                <h3>🏆 First Client Acquired!</h3>
-                <p>Alex's first paid project - proving that skills matter more than devices</p>
+            <div class="stat-card">
+                <div class="stat-value">{{ stats.tech_adoption }}%</div>
+                <div>تبني التكنولوجيا</div>
             </div>
-            <p>The local newspaper featured his story: "Local Teen Becomes Developer Using Only Library Computers"</p>
-        </div>
-
-        <div class="story-section">
-            <h2>Chapter 6: The Future is Bright</h2>
-            <p>Today, Alex is a successful full-stack developer working for a tech company. He still doesn't own the latest smartphone, but he owns something more valuable - the knowledge that limitations are just opportunities in disguise.</p>
-            <p>He established a coding bootcamp for underprivileged youth, teaching them that:</p>
-            <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 5px solid #4ecdc4;">
-                <p><strong>"Success in programming isn't about having the best tools - it's about having the best mindset."</strong></p>
+            <div class="stat-card">
+                <div class="stat-value">{{ stats.cloud_readiness }}%</div>
+                <div>جاهزية الحوسبة السحابية</div>
             </div>
-            <p>Alex's story reminds us that passion, persistence, and resourcefulness can overcome any obstacle. You don't need a phone to become a developer - you just need the determination to start.</p>
         </div>
 
-        <div class="achievement">
-            <h2>🚀 Your Journey Starts Now!</h2>
-            <p>Like Alex, you can start your coding journey today. All you need is access to a computer and the willingness to learn. The next great developer could be you!</p>
+        <div class="sectors-grid">
+            {% for sector in sectors %}
+            <div class="sector-card">
+                <div class="sector-header">
+                    <div class="sector-icon">{{ sector.icon }}</div>
+                    <div class="sector-title">
+                        <h3>{{ sector.name }}</h3>
+                        <p>{{ sector.name_en }}</p>
+                    </div>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>التقدم</span>
+                        <span>{{ sector.progress }}%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" 
+                             style="width: {{ sector.progress }}%; background: {{ sector.color }};">
+                        </div>
+                    </div>
+                </div>
+
+                <ul class="initiatives-list">
+                    {% for initiative in sector.initiatives %}
+                    <li style="animation-delay: {{ loop.index * 0.2 }}s;">{{ initiative }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="footer">
+            <h3>🚀 نحو مستقبل رقمي مزدهر</h3>
+            <p>رؤية عمان 2040 - تقنيات المستقبل اليوم</p>
+            <p style="margin-top: 10px; opacity: 0.7;">Built for Microsoft Azure Cloud Platform</p>
+            
+            <div style="margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
+                <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 8px;">
+                    💻 تم تطوير هذا الموقع بواسطة: <strong style="color: #FFD700;">محمد أشرف</strong>
+                </p>
+                <p style="font-size: 0.9rem; opacity: 0.8;">
+                    🎓 بالتعاون مع: <strong style="color: #FFD700;">الدكتور عبدالخالق</strong>
+                </p>
+                <p style="font-size: 0.8rem; opacity: 0.6; margin-top: 10px;">
+                    ⚡ Powered by Python Flask & Microsoft Azure
+                </p>
+            </div>
         </div>
     </div>
 
     <script>
-        // Add some interactive elements
+        // إضافة تأثيرات تفاعلية
         document.addEventListener('DOMContentLoaded', function() {
-            // Animate elements on scroll
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-
-            const observer = new IntersectionObserver(function(entries) {
+            // تحديث أشرطة التقدم بشكل تفاعلي
+            const progressBars = document.querySelectorAll('.progress-fill');
+            
+            const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.style.animationPlayState = 'running';
+                        const progressBar = entry.target;
+                        const width = progressBar.style.width;
+                        progressBar.style.width = '0%';
+                        setTimeout(() => {
+                            progressBar.style.width = width;
+                        }, 200);
                     }
                 });
-            }, observerOptions);
-
-            document.querySelectorAll('.story-section').forEach(section => {
-                observer.observe(section);
             });
 
-            // Add click effect to achievement boxes
-            document.querySelectorAll('.achievement').forEach(achievement => {
-                achievement.addEventListener('click', function() {
-                    this.style.transform = 'scale(1.05)';
-                    setTimeout(() => {
-                        this.style.transform = 'scale(1)';
-                    }, 200);
+            progressBars.forEach(bar => observer.observe(bar));
+
+            // تأثير تحريك العناصر عند التمرير
+            const cards = document.querySelectorAll('.sector-card, .stat-card');
+            
+            const cardObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
                 });
             });
+
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'all 0.6s ease';
+                cardObserver.observe(card);
+            });
+
+            // إضافة المزيد من السحب المتحركة
+            function createCloud() {
+                const cloud = document.createElement('div');
+                cloud.className = 'cloud';
+                cloud.style.width = Math.random() * 100 + 80 + 'px';
+                cloud.style.height = Math.random() * 40 + 50 + 'px';
+                cloud.style.top = Math.random() * 100 + '%';
+                cloud.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                cloud.style.animationDelay = Math.random() * 5 + 's';
+                
+                document.querySelector('.cloud-animation').appendChild(cloud);
+                
+                setTimeout(() => {
+                    cloud.remove();
+                }, 25000);
+            }
+
+            setInterval(createCloud, 3000);
         });
     </script>
 </body>
 </html>
-    """)
+"""
+
+@app.route('/')
+def dashboard():
+    return render_template_string(HTML_TEMPLATE, 
+                                sectors=vision_data['sectors'],
+                                stats=vision_data['stats'])
+
+@app.route('/api/data')
+def api_data():
+    return json.dumps(vision_data, ensure_ascii=False)
+
+@app.route('/health')
+def health_check():
+    return {"status": "healthy", "service": "Oman Vision 2040 Dashboard"}
 
 if __name__ == '__main__':
-    app.run()
+    # للتطوير المحلي
+    app.run(debug=True, host='0.0.0.0', port=5000)
+
+# للنشر على Azure App Service
+# يمكنك استخدام Gunicorn كخادم WSGI
+# pip install gunicorn
+# gunicorn --bind 0.0.0.0:8000 app:app
