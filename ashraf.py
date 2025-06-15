@@ -462,8 +462,6 @@ html_template = """
                 <strong>insta: md.4shraf</strong><br>
                 IT Graduate | Software Application Developer<br>
                 Focused on AI, LLMs & IoT<br>
-                Open to Opportunities<br>
-                UTAS Ibri 2025
             </div>
         </div>
 
@@ -478,7 +476,6 @@ html_template = """
                 CEO and Founder @ Smartovate<br>
                 Ph.D. in Computer Science<br>
                 AI Expert | Generative AI | LLMs<br>
-                Ex. Microsoft Engineer | Ex. IBM Software Developer
             </div>
         </div>
 
