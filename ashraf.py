@@ -608,8 +608,8 @@ HTML_TEMPLATE = """
 
     <div class="container">
         <div class="header">
-        <img src="/static/oman.jpg" alt="علم عمان" class="oman-flag-image" />
-        <h1>🇴🇲 رؤية عُمان 2040</h1>
+        <img src="oman.jpg" alt="علم عمان" class="oman-flag-image" />
+        <h1>OMAN رؤية عُمان 2040</h1>
         <p>{{ vision_info.subtitle }}</p>
         <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 10px;">{{ vision_info.period }}</p>
     </div>
