@@ -450,29 +450,41 @@ html_template = """
                 </div>
             </div>
         </section>
+<!-- Team Section -->
+<section id="team" class="section">
+    <h2 class="section-title">فريق التطوير</h2>
+    <div class="team-grid">
 
-        <!-- Team Section -->
-        <section id="team" class="section">
-            <h2 class="section-title">فريق التطوير</h2>
-            <div class="team-grid">
-                <div class="team-card">
-                    <div class="team-name">محمد أشرف علي</div>
-                    <div class="team-role">مطور ومهندس حلول سحابية</div>
-                    <div class="company-info">
-                        <strong>md.4shraf</strong><br>
-                        درجة البكالوريوس تقنية المعلومات  <br>
-                        متخصص في تطوير التطبيقات والمرمجيات
-                    </div>
-                </div>
-                
-                <div class="team-card">
-                    <div class="team-name">الدكتور عبد الخالق</div>
-                    <div class="team-role">خبير استراتيجي ومستشار تقني</div>
-                    <div class="company-info">
-                        <strong>شركة Smartovate</strong><br>
-                    </div>
-                </div>
+        <div class="team-card">
+            <div class="team-name">محمد أشرف علي</div>
+            <div class="team-role">Software Application Developer</div>
+            <div class="company-info">
+                <strong>insta: md.4shraf</strong><br>
+                IT Graduate | Software Application Developer<br>
+                Focused on AI, LLMs & IoT<br>
+                Open to Opportunities<br>
+                UTAS Ibri 2025
             </div>
+        </div>
+
+        <div class="team-card">
+            <div class="team-name">الدكتور عبد الخالق</div>
+            <div class="team-role">خبير استراتيجي ومستشار تقني</div>
+            <div class="company-info">
+                <strong>شركة Smartovate</strong><br>
+                Microsoft Certified Trainer 🪟<br>
+                AWS Trainer ☁️<br>
+                AI Innovator 🚀<br>
+                CEO and Founder @ Smartovate<br>
+                Ph.D. in Computer Science<br>
+                AI Expert | Generative AI | LLMs<br>
+                Ex. Microsoft Engineer | Ex. IBM Software Developer
+            </div>
+        </div>
+
+    </div>
+</section>
+
             
             <div style="text-align: center; margin-top: 3rem; background: rgba(139, 0, 0, 0.1); padding: 2rem; border-radius: 15px;">
                 <h3 style="color: #8B0000; margin-bottom: 1rem;">شركة Smartovate</h3>
