@@ -459,9 +459,9 @@ html_template = """
                     <div class="team-name">محمد أشرف علي</div>
                     <div class="team-role">مطور ومهندس حلول سحابية</div>
                     <div class="company-info">
-                        <strong>شركة Smartovate</strong><br>
-                        حاصل على شهادة AZ-900 من مايكروسفت أزور<br>
-                        متخصص في تطوير التطبيقات السحابية والذكية
+                        <strong>md.4shraf</strong><br>
+                        درجة البكالوريوس تقنية المعلومات  <br>
+                        متخصص في تطوير التطبيقات والمرمجيات
                     </div>
                 </div>
                 
@@ -470,8 +470,6 @@ html_template = """
                     <div class="team-role">خبير استراتيجي ومستشار تقني</div>
                     <div class="company-info">
                         <strong>شركة Smartovate</strong><br>
-                        حاصل على شهادة AZ-900 من مايكروسفت أزور<br>
-                        متخصص في الاستراتيجيات الرقمية والتحول التقني
                     </div>
                 </div>
             </div>
@@ -494,11 +492,10 @@ html_template = """
                 <strong>رؤية عُمان 2040 - نحو مستقبل مزدهر</strong>
             </p>
             <p>
-                تم التطوير بواسطة محمد أشرف علي والدكتور عبد الخالق من شركة Smartovate
+                تم التطوير بواسطة محمد أشرف علي 
+             الدكتور عبد الخالق من شركة Smartovate <br>
             </p>
-            <p style="margin-top: 1rem; opacity: 0.8;">
-                معتمد على تقنيات مايكروسفت أزور - شهادة AZ-900
-            </p>
+           
         </div>
     </footer>
 
